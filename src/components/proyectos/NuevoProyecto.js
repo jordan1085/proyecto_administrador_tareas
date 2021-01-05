@@ -7,8 +7,13 @@ const NuevoProyecto = () => {
     const proyectosContext = useContext(proyectoContext);
 
     // Extraemos el valor del formulario (false) desde el context
-    const { formulario, mostrarFormulario } = proyectosContext;
-
+    const { 
+        formulario, 
+        errorformulario, 
+        mostrarFormulario, 
+        agregarProyecto, 
+        mostrarError 
+    } = proyectosContext;
 
 
     // State para proyectos
@@ -32,10 +37,18 @@ const NuevoProyecto = () => {
         e.preventDefault(); 
 
         // Validar Proyecto
+        if(nombre === '') {
+            mostrarError();
+            return;
+        }
 
-        // Agregar al state 
+        // A la funcion que agrega proyectos le pasamos el state con el nuevo proyecto
+        agregarProyecto(proyecto);
 
-        // Reiniciar elf formulario
+        // Reiniciar el formulario
+        guardarProyectos({
+            nombre: ''
+        })
     }
 
     // Mostrar el formulario
@@ -79,6 +92,7 @@ const NuevoProyecto = () => {
                     </form>
                 ) : null
            } 
+           { errorformulario ? <p className="mensaje error">El nombre es obligatorio</p>: null }
 
         </Fragment>
 

@@ -1,9 +1,15 @@
 import React, { useReducer } from 'react';
-
+import { v4 as uuidv4} from 'uuid';
 import proyectoContext from './proyectoContext';
 import proyectoReducer from './proyectoReducer';
-import { FORMULARIO_PROYECTO, OBTENER_PROYECTOS } from '../../types';
-
+import { 
+    FORMULARIO_PROYECTO, 
+    OBTENER_PROYECTOS, 
+    AGREGAR_PROYECTO, 
+    VALIDAR_FORMULARIO,
+    PROYECTO_ACTUAL,
+    ELIMINAR_PROYECTO
+} from '../../types';
 
 const ProyectoState = props => {
     
@@ -17,11 +23,13 @@ const ProyectoState = props => {
     const initialState = {
         
         proyectos : [],    
-        formulario : false
+        formulario : false,
+        errorformulario : false,
+        proyecto : null
     }
 
     // Despath para ejecutar las acciones
-    const [state, dispatch] = useReducer(proyectoReducer, initialState)
+    const [state, dispatch] = useReducer(proyectoReducer, initialState);
 
     // Funciones para el CRUD
     const mostrarFormulario = () => {
@@ -38,13 +46,54 @@ const ProyectoState = props => {
         })
     }
 
+    // Agregar nuevo proyecto
+    const agregarProyecto = proyecto => {
+        proyecto.id = uuidv4();
+
+        // Insertamos proyecto en el state 
+        dispatch({
+            type: AGREGAR_PROYECTO,
+            payload: proyecto
+        })
+    }
+
+    // Validar formulario
+    const mostrarError = () => {
+        dispatch({
+            type: VALIDAR_FORMULARIO
+        }) 
+    }
+
+    // Selecciona el proyecto que el usuario dio click
+    const proyectoActual = proyectoId => {
+        dispatch({
+            type: PROYECTO_ACTUAL,
+            payload: proyectoId
+        })
+    }
+    
+    // elimina un proyecto
+    const eliminarProyecto = proyectoId => {
+        dispatch({
+            type: ELIMINAR_PROYECTO,
+            payload: proyectoId
+        })
+    }
+
+
     return (
         <proyectoContext.Provider
             value={{
                 proyectos: state.proyectos,
                 formulario: state.formulario,
+                errorformulario: state.errorformulario,
+                proyecto: state.proyecto,
                 mostrarFormulario,
-                obtenerProyectos
+                obtenerProyectos,
+                agregarProyecto,
+                mostrarError,
+                proyectoActual,
+                eliminarProyecto
             }}
         >
 
