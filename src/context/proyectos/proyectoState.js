@@ -15,7 +15,7 @@ const ProyectoState = props => {
     
     const proyectos = [
         { id: 1, nombre: 'Tienda virtual' },
-        { id: 2, nombre: 'Diseño sitio wev' },
+        { id: 2, nombre: 'Diseño sitio web' },
         { id: 3, nombre: 'Back end' },
         { id: 4, nombre: 'MERN' }
     ]

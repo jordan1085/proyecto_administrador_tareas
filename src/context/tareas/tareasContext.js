@@ -1,5 +1,5 @@
 import {createContext} from 'react';
 
-const TareasContex = createContext();
+const tareaContex = createContext();
 
-export default TareasContex;
+export default tareaContex;
